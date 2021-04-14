@@ -4,12 +4,14 @@
 # License: GPL-3.0-or-later
 
 
-
 ### INCLUDES
 
 source bash.inc.sh
 
-source mediainfo.sh
+
+### CONSTANTS
+
+PATH=/cygdrive/c/build_suite/local64/bin-global:$PATH;
 
 
 ### FUNCTIONS
