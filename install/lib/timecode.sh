@@ -16,9 +16,9 @@
 #####################################################
 function timecode_to_ms () {
 
-local timecode=$1;
+declare timecode=$1;
 
-local timecode_ms;
+declare -i timecode_ms;
 
 timecode_ms=$(echo "$timecode" | awk -F: '{ print ($1 * 3600000) + ($2 * 60000) + ($3 * 1000) + ($4*100) }');
 
@@ -36,9 +36,9 @@ echo "$timecode_ms";
 ###########################################################
 function time_format () {
 
-local duration=$1;
+declare duration=$1;
 
-local tc_duration;
+declare tc_duration;
 
 if [[ duration -le 9 ]]; then
 
@@ -64,72 +64,58 @@ function ms_to_timecode () {
 
 # input parameters
 
-local splitDurationMs=$1;
+declare -i splitDurationMs=$1;
 
 
 # get hour
 
-local duration_hour;
+declare -i duration_hour=$(($splitDurationMs / 3600000));
 
-duration_hour=$(($splitDurationMs / 3600000));
-
-local remainder_hour;
-
-remainder_hour=$(($splitDurationMs % 3600000));
+declare -i remainder_hour=$(($splitDurationMs % 3600000));
 
 
 # get minute
 
-local duration_minute;
+declare -i duration_minute=$(($remainder_hour / 60000));
 
-duration_minute=$(($remainder_hour / 60000));
-
-local remainder_minute;
-
-remainder_minute=$(($remainder_hour % 60000));
+declare -i remainder_minute=$(($remainder_hour % 60000));
 
 
 # get second
 
-local duration_second;
+declare -i duration_second=$(($remainder_minute / 1000));
 
-duration_second=$(($remainder_minute / 1000));
-
-local remainder_second;
-
-remainder_second=$(($remainder_minute % 1000));
+declare -i remainder_second=$(($remainder_minute % 1000));
 
 
 # get decisecond
 
-local duration_decisecond;
-
-duration_decisecond=$(($remainder_second / 100));
+declare -i duration_decisecond=$(($remainder_second / 100));
 
 
 # correct timeformat
 
-local timecode_hour;
+declare timecode_hour;
 
 timecode_hour=$(time_format $duration_hour);
 
 
-local timecode_hour;
+declare timecode_minute;
 
 timecode_minute=$(time_format $duration_minute);
 
 
-local timecode_second;
+declare timecode_second
 
 timecode_second=$(time_format $duration_second);
 
 
-local timecode_decisecond=$duration_decisecond;
+declare timecode_decisecond=$duration_decisecond;
 
 
 # assemble timeformat
 
-local split_duration="$timecode_hour:$timecode_minute:$timecode_second.$timecode_decisecond";
+declare split_duration="$timecode_hour:$timecode_minute:$timecode_second.$timecode_decisecond";
 
 
 # return the converted timecode value
@@ -150,33 +136,31 @@ function subtract_timecode () {
 
 # input parameters
 
-local tc_split_start=$1;
+declare tc_split_start=$1;
 
-local tc_split_end=$2;
+declare tc_split_end=$2;
 
 
 # convert timecode to miliseconds
 
-local split_end_ms;
+declare -i split_end_ms;
 
 split_end_ms=$(timecode_to_ms "$tc_split_end");
 
 
-local split_start_ms;
+declare -i split_start_ms;
 
 split_start_ms=$(timecode_to_ms "$tc_split_start");
 
 
 # subtract the two milisesconds value
 
-local split_duration_ms;
-
-split_duration_ms=$(($split_end_ms-$split_start_ms));
+declare -i split_duration_ms=$(( $split_end_ms - $split_start_ms ));
 
 
 # covert miliseconds to timecode
 
-local tc_split_duration;
+declare tc_split_duration;
 
 tc_split_duration=$(ms_to_timecode $split_duration_ms);
 
