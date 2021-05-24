@@ -58,7 +58,7 @@ esac
 set -- "$sample_rate";
 
 
-audio="-ac $usr_audio_channels -ar $sample_rate $FF_RESAMPLER";
+declare audio="-ac $usr_audio_channels -ar $sample_rate $FF_RESAMPLER";
 
 echo "$audio";
 
