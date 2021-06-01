@@ -16,11 +16,11 @@
 function concat_ffstream () {
 
 
-declare usr_map=${1:-0};
+### INPUT PARAMETERS
 
-declare usr_split_start=${2:-00:00:00.0};
+declare usr_split_start="${1:-00:00:00.0}";
 
-declare usr_split_to=${3:-09:00:00.0};
+declare usr_split_to="${2:-09:00:00.0}";
 
 
 #### INCLUDES
@@ -34,9 +34,11 @@ declare split_duration;
 
 split_duration=$(subtract_timecode $usr_split_start $usr_split_to);
 
+declare stream_com="-ss $usr_split_start -to $split_duration -threads 0 -y";
 
-declare stream="-ss $usr_split_start -to $split_duration -map 0:$usr_map -threads 0 -y";
 
-echo "$stream";
+### RETURN
+
+echo "$stream_com";
 
 }
