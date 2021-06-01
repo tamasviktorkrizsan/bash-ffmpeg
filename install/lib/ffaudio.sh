@@ -6,7 +6,7 @@
 
 ### CONSTANT SETTINGS
 
-declare -xr DEFAULT_INPUT="*.wav *.flac *.m4a *.mp3 *.ac3 *.webm *.mp4 *.mkv *.mov *.wmv *.mpeg *.mpg *.flv *.avi *.divx *.vob *.bik";
+declare -xr DEFAULT_INPUT='*.wav *.flac *.m4a *.mp3 *.ac3 *.webm *.mp4 *.mkv *.mov *.wmv *.mpeg *.mpg *.flv *.avi *.divx *.vob *.bik';
 
 
 ### FUNCTIONS
@@ -14,7 +14,7 @@ declare -xr DEFAULT_INPUT="*.wav *.flac *.m4a *.mp3 *.ac3 *.webm *.mp4 *.mkv *.m
 #########################################################################
 # Concat ffmpeg audio command string.
 # Arguments:
-#   Number of audio channels, sample rate (shorthand)
+#   Track number, number of audio channels, sample rate (shorthand)
 # Returns:
 #   Concatenated ffmpeg audio command string
 #########################################################################
@@ -23,9 +23,11 @@ concat_ffaudio () {
 
 ### INPUT PARAMETERS
 
-declare usr_audio_channels=${1:-2};
+declare usr_map="${1:-0}";
 
-declare usr_sample_rate=${2:-48};
+declare usr_audio_channels="${2:-2}";
+
+declare usr_sample_rate="${3:-48}";
 
 
 ### CONSTANTS
@@ -51,15 +53,18 @@ case $usr_sample_rate in
 
    *)
 
-   echo "ERROR! Check the rate control parameter!";;
+   echo "ERROR! Check the < sample_rate > parameter!";;
 
 esac
 
 set -- "$sample_rate";
 
 
-declare audio="-ac $usr_audio_channels -ar $sample_rate $FF_RESAMPLER";
+declare audio_com="-map 0:$usr_map -ac $usr_audio_channels -ar $sample_rate $FF_RESAMPLER";
 
-echo "$audio";
+
+### RETURN
+
+echo "$audio_com";
 
 }
