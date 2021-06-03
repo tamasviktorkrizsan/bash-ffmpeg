@@ -50,7 +50,7 @@ source ffaudio.sh
 
 declare -r WAV_COM="-c:a pcm_f32le -f wav";
 
-declare -r FF_LOG_SUFFIX="_pipe_part1.log";
+declare -r FF_LOG_SUFFIX=".log";
 
 
 ### PROCESSING
