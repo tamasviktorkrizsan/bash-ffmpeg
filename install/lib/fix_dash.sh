@@ -63,7 +63,7 @@ for i in "$input";
 
 do output=$(handle_output "$i" "M4A_FIXED");
 
-ffmpeg $FF_SCAN -i "$i" $ff_stream_com $M4A_COM "$output.m4a" 2>&1 |\
+ffmpeg $FF_SCAN -i "$i" $ffstream_com $M4A_COM "$output.m4a" 2>&1 |\
 
 tee "$output$FF_LOG_SUFFIX";
 
